@@ -1,0 +1,5 @@
+{
+  "DatabaseSettings": {
+    "ConnectionString": "Server=.;Database=Tarkhineh_Db;Trusted_Connection=True;TrustServerCertificate=True"
+  }
+}
