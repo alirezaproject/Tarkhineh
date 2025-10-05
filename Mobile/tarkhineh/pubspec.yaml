@@ -2,7 +2,7 @@ name: tarkhineh
 description: "Tarkhineh is a cross-platform mobile application built with Flutter for Android and iOS, designed to provide a seamless and engaging experience for food lovers.  It connects users to a rich menu of traditional and modern meals, offers personalized deals, and allows them to easily browse, order, and rate their meals right from their phone."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -34,6 +34,11 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  flutter_riverpod: ^3.0.1
+  smooth_page_indicator: ^1.2.1
+  flutter_native_splash: ^2.4.6
+  go_router: ^16.2.4
+
 
 dev_dependencies:
   flutter_test:
@@ -51,15 +56,14 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -73,10 +77,19 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Estedad
+      fonts:
+        - asset: assets/fonts/Estedad-FD-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Estedad-FD-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Estedad-FD-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Estedad-FD-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Estedad-FD-Black.ttf
+          weight: 900
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
