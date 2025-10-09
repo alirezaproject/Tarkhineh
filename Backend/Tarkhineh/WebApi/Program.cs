@@ -1,8 +1,9 @@
+using Application;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Logging.Serilog;
 using Serilog;
-using WebApi.Configurations;
+
+using WebApi.Extensions;
 
 
 StaticLogger.EnsureInitialized();
@@ -11,14 +12,36 @@ Log.Information("Server Booting Up...");
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+    builder.Host.UseSerilog((_, config) =>
+    {
+        config.WriteTo.Console()
+            .ReadFrom.Configuration(builder.Configuration);
+    });
 
-    builder.AddConfigurations().RegisterSerilog();
 
+
+ //   builder.AddConfigurations().RegisterSerilog();
+    
     builder.Services.AddControllers();
     builder.Services.AddInfrastructure(builder.Configuration);
+    builder.Services.AddApplication();
 
+
+    builder.Services.RegisterWebApi(builder);
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowSpecificOrigin",
+            cp =>
+            {
+                cp.WithOrigins("https://localhost:3000", "http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+    });
 
     var app = builder.Build();
 
@@ -28,9 +51,9 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-
+    app.UseCors("AllowSpecificOrigin");
     app.UseHttpsRedirection();
-
+    app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapControllers();

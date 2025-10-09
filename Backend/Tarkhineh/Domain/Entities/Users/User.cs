@@ -5,10 +5,10 @@ namespace Domain.Entities.Users;
 
 public sealed class User :IdentityUser<Guid>
 {
-    public string Name { get; set; }
-    public string Family { get; set; }
-    public string NickName { get; set; }
-    public DateTime BirthDate { get; set; }
+    public string? Name { get; set; }
+    public string? Family { get; set; }
+    public string? NickName { get; set; }
+    public DateTime? BirthDate { get; set; }
     
 
     #region Relations

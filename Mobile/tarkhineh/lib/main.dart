@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tarkhineh/core/theme.dart';
-import '/core/routing/app_router.dart';
+import 'package:tarkhineh/service_locator.dart';
+import 'core/app_router.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupLocator();
   runApp(ProviderScope(child: MyApp()));
 }
 

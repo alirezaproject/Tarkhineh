@@ -6,7 +6,7 @@ class OnboardingController extends ChangeNotifier {
   final PageController pageController = PageController();
   int currentIndex = 0;
 
-  int get totalPages => 3; // تعداد کل صفحات onboarding
+  int get totalPages => 3;
 
   void onPageChanged(int index) {
     currentIndex = index;
@@ -30,7 +30,6 @@ class OnboardingController extends ChangeNotifier {
   }
 }
 
-// Provider از نوع ChangeNotifier
 final onboardingControllerProvider = ChangeNotifierProvider<OnboardingController>((ref) {
   return OnboardingController();
 });

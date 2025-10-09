@@ -1,0 +1,30 @@
+import 'package:get_it/get_it.dart';
+import 'package:dio/dio.dart';
+import 'package:tarkhineh/core/constants/api_endpoints.dart';
+import 'package:tarkhineh/core/network/app_interceptor.dart';
+import 'package:tarkhineh/core/network/custom_api_interceptor.dart';
+import 'package:tarkhineh/core/storage/secure_storage_service.dart';
+import '../../features/auth/services/auth_service.dart';
+
+final sl = GetIt.instance;
+
+Future<void> setupLocator() async {
+  sl.registerLazySingleton(() => SecureStorageService());
+
+  sl.registerLazySingleton<Dio>(() {
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: ApiEndpoints.baseUrl,
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 5),
+        headers: {'Content-Type': 'application/json'},
+      ),
+    );
+    dio.interceptors.add(CustomApiInterceptor());
+    dio.interceptors.add(AppInterceptor());
+    dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+    return dio;
+  });
+
+  sl.registerLazySingleton<AuthService>(() => AuthService(sl<Dio>()));
+}

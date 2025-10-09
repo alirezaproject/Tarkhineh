@@ -2,13 +2,11 @@ flutter_native_splash:
   android: true
   ios: true
   web: false
-  
+
   color: "#2F6E4F"
-  image: assets/images/logo.png
+  image: assets/images/splash_full.jpg
 
   android_12:
-    
     color: "#2F6E4F"
-    image: assets/images/logo.png
+    image: assets/images/splash_full.jpg
     fullscreen: true
-    android_gravity: fill

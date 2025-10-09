@@ -1,9 +1,5 @@
-using System.Reflection;
-using Figgle;
 using Figgle.Fonts;
-using Infrastructure.Logging;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Serilog;
@@ -28,10 +24,10 @@ public static class Extensions
             bool writeToFile = loggerSettings.WriteToFile;
             bool structuredConsoleLogging = loggerSettings.StructuredConsoleLogging;
             string minLogLevel = loggerSettings.MinimumLogLevel;
-            ConfigureEnrichers(serilogConfig, appName);
+          //  ConfigureEnrichers(serilogConfig, appName);
             ConfigureConsoleLogging(serilogConfig, structuredConsoleLogging);
-            ConfigureWriteToFile(serilogConfig, writeToFile);
-            ConfigureElasticSearch(builder, serilogConfig, appName, elasticSearchUrl);
+           // ConfigureWriteToFile(serilogConfig, writeToFile);
+          //  ConfigureElasticSearch(builder, serilogConfig, appName, elasticSearchUrl);
             SetMinimumLogLevel(serilogConfig, minLogLevel);
             OverideMinimumLogLevel(serilogConfig);
             Console.WriteLine(FiggleFonts.Standard.Render(loggerSettings.AppName));
@@ -114,7 +110,7 @@ public static class Extensions
                 serilogConfig.MinimumLevel.Warning();
                 break;
             default:
-                serilogConfig.MinimumLevel.Information();
+                serilogConfig.MinimumLevel.Debug();
                 break;
         }
     }

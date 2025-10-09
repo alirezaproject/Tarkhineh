@@ -10,13 +10,11 @@ internal static class Startup
 {
     internal static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration config)
     {
-        services.AddOptions<DatabaseSettings>()
-            .Bind(config.GetSection(nameof(DatabaseSettings)));
-
+      
         return services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
-            var dbSettings = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
-            options.UseSqlServer(dbSettings.ConnectionString);
+            var connectionString = config.GetConnectionString("Default");
+            options.UseSqlServer(connectionString);
         });
     }
 }
