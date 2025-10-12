@@ -11,7 +11,7 @@ final authProvider = ChangeNotifierProvider<AuthController>((ref) {
 });
 
 class AuthController extends ChangeNotifier {
-  final authService = sl<AuthService>();
+  final authService = sl<IAuthService>();
 
   final loginformKey = GlobalKey<FormState>();
 

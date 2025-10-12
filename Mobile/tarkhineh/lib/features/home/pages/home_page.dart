@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tarkhineh/features/home/widgets/home_header.dart';
+import 'package:tarkhineh/features/home/widgets/slider.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -7,8 +9,12 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home Page')),
-      body: const Center(child: Text('Welcome to the Home Page!')),
+      body: SafeArea(
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Column(children: [HomeHeader(), AppSlider()]),
+        ),
+      ),
     );
   }
 }

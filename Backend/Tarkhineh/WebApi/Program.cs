@@ -1,6 +1,7 @@
 using Application;
 using Infrastructure;
 using Infrastructure.Common;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 using WebApi.Extensions;
@@ -18,10 +19,6 @@ try
             .ReadFrom.Configuration(builder.Configuration);
     });
 
-
-
- //   builder.AddConfigurations().RegisterSerilog();
-    
     builder.Services.AddControllers();
     builder.Services.AddInfrastructure(builder.Configuration);
     builder.Services.AddApplication();

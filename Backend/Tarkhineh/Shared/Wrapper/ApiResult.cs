@@ -26,8 +26,38 @@ public class ApiResult<T> : ApiResult
         return new ApiResult<T> { Success = true, Data = data, Message = message };
     }
 
-    public static ApiResult<T> Fail(string message, T? data = default)
+    public static ApiResult<T> Fail(string message = "خطای سیستمی رخ داده است", T? data = default)
     {
-        return new ApiResult<T> { Success = false, Message = message, Data = data };
+        return new ApiResult<T> 
+            { Success = false,
+                Message = message, 
+                Data = data };
     }
+
+    public static ApiResult<T> NotFound(string name)
+        => new ApiResult<T>
+        {
+            Success = false,
+            Message =
+                $"{name} یافت نشد"
+        };
+
+
+    public static ApiResult<T> CreateFailed(string name)
+        => new ApiResult<T>
+        {
+            Success = false,
+            Message =
+                $"در ایجاد {name} مشکلی رخ داده است"
+        };
+
+    public static ApiResult<T> CreateSuccess(T data,string name)
+        => new ApiResult<T>
+        {
+            Success = false,
+            Message =
+                $"{name} با موفقیت ایجاد شد",
+            Data = data,
+        };
 }
+

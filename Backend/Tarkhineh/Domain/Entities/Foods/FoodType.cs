@@ -9,7 +9,7 @@ public class FoodType : BaseEntity
 
     #region Relations
 
-    public IReadOnlyCollection<FoodType> FoodTypes { get; set; }
+    public IReadOnlyCollection<Food> Foods { get; set; }
 
 
     #endregion

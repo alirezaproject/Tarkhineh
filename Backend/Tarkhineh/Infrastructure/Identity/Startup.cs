@@ -19,7 +19,7 @@ internal static class Startup
                     options.User.RequireUniqueEmail = false;
                     
                 })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddEntityFrameworkStores<DatabaseContext>()
             .AddDefaultTokenProviders()
             .Services;
 }

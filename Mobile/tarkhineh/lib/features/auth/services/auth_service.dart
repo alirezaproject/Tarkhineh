@@ -4,10 +4,16 @@ import 'package:tarkhineh/core/constants/error_message.dart';
 import 'package:tarkhineh/core/exception/network_exception.dart';
 import 'package:tarkhineh/core/models/api_result.dart';
 
-class AuthService {
+abstract class IAuthService {
+  Future<ApiResult<void>> sendOtp(String phone);
+  Future<ApiResult> verifyOtp(String phoneNumber, String otpCode);
+}
+
+class AuthService implements IAuthService {
   final Dio dio;
   AuthService(this.dio);
 
+  @override
   Future<ApiResult<void>> sendOtp(String phone) async {
     try {
       final response = await dio.post(ApiEndpoints.sendOtp, data: {'phone': phone});
@@ -21,6 +27,7 @@ class AuthService {
     }
   }
 
+  @override
   Future<ApiResult> verifyOtp(String phoneNumber, String otpCode) async {
     try {
       final response = await dio.post(ApiEndpoints.verifyOtp, data: {'mobile': phoneNumber, 'code': otpCode});

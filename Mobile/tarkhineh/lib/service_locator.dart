@@ -4,6 +4,7 @@ import 'package:tarkhineh/core/constants/api_endpoints.dart';
 import 'package:tarkhineh/core/network/app_interceptor.dart';
 import 'package:tarkhineh/core/network/custom_api_interceptor.dart';
 import 'package:tarkhineh/core/storage/secure_storage_service.dart';
+import 'package:tarkhineh/features/home/services/slider_service.dart';
 import '../../features/auth/services/auth_service.dart';
 
 final sl = GetIt.instance;
@@ -26,5 +27,6 @@ Future<void> setupLocator() async {
     return dio;
   });
 
-  sl.registerLazySingleton<AuthService>(() => AuthService(sl<Dio>()));
+  sl.registerLazySingleton<IAuthService>(() => AuthService(sl<Dio>()));
+  sl.registerLazySingleton<ISliderService>(() => SliderService(sl<Dio>()));
 }
