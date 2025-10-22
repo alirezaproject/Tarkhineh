@@ -23,6 +23,7 @@ public sealed class Food : BaseEntity
     public IReadOnlyCollection<Rating> Ratings { get; set; }
     public IReadOnlyCollection<Favorite> Favorites { get; set; }
     public IReadOnlyCollection<FoodCategory> FoodCategories { get; set; }
+
     public FoodType FoodType { get; set; }
     public Guid FoodTypeId { get; set; }
 

@@ -59,7 +59,7 @@ class LoginPage extends ConsumerWidget {
                   controller.isLoading
                       ? const AppLoading()
                       : ElevatedButton(
-                          style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
+                          style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40), backgroundColor: AppTheme.lightTheme.primaryColor),
                           onPressed: controller.isEnable ? () async => await controller.sendOtp() : null,
                           child: Text('ارسال کد', style: AppTheme.lightTheme.textTheme.bodyLarge!.copyWith(color: Colors.white)),
                         ),

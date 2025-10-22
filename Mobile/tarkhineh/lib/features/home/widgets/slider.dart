@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tarkhineh/core/constants/assets.dart';
 import 'package:tarkhineh/core/theme.dart';
@@ -19,21 +20,13 @@ class _AppSliderState extends ConsumerState<AppSlider> {
   Widget build(BuildContext context) {
     final controller = ref.watch(sliderProvider);
 
-    if (controller.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (controller.errorMessage != null) {
-      return Center(child: Text(controller.errorMessage!));
-    }
-
-    if (controller.sliders.isEmpty) {
-      return const Text('هیچ اسلایدری یافت نشد');
+    if (controller.isLoading || controller.sliders.isEmpty) {
+      return Shimmer(child: Container(height: 220, color: Colors.grey));
     }
 
     return Stack(
       children: [
-        // 👇 Main carousel layer
+        
         CarouselSlider.builder(
           carouselController: controller.carouselController,
           itemCount: controller.sliders.length,
@@ -42,13 +35,13 @@ class _AppSliderState extends ConsumerState<AppSlider> {
             return Stack(
               fit: StackFit.expand,
               children: [
-                // background image
+                
                 CachedNetworkImage(
                   imageUrl: slider.imageUrl,
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: 220,
-                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                  placeholder: (context, url) => Shimmer(child: Container(height: 220, color: Colors.grey)),
                   errorWidget: (context, url, error) => Container(
                     color: Colors.grey.shade200,
                     alignment: Alignment.center,
@@ -56,7 +49,6 @@ class _AppSliderState extends ConsumerState<AppSlider> {
                   ),
                 ),
 
-                // dark overlay for contrast
                 Container(color: Colors.black.withValues(alpha: 0.5)),
 
                 // centered title text
@@ -97,7 +89,7 @@ class _AppSliderState extends ConsumerState<AppSlider> {
               padding: const EdgeInsets.symmetric(vertical: 10),
               width: 150,
               decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage(AppAssets.slider_background), fit: BoxFit.cover),
+                image: DecorationImage(image: AssetImage(AppAssets.sliderBackground), fit: BoxFit.cover),
               ),
               child: AnimatedSmoothIndicator(
                 activeIndex: controller.currentIndex,

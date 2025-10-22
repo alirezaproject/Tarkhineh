@@ -19,11 +19,10 @@ class VerifyPage extends ConsumerWidget {
 
     final notifier = ref.read(authProvider.notifier);
 
-    final minutes = (controller.secondsRemaining ~/ 60).toString().padLeft(2, '0');
-    final seconds = (controller.secondsRemaining % 60).toString().padLeft(2, '0');
+    //  final seconds = (controller.secondsRemaining % 60).toString().padLeft(2, '0');
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (controller.secondsRemaining == 60 && !controller.canResend) {
+      if (!controller.canResend) {
         notifier.startTimer();
       }
     });
@@ -59,6 +58,35 @@ class VerifyPage extends ConsumerWidget {
                   const SizedBox(height: 24),
                   Row(
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.watch_later_outlined, color: Color(0xFF2F6E4F), size: 22),
+                          const SizedBox(width: 6),
+                          if (!controller.canResend)
+                            RichText(
+                              text: TextSpan(
+                                style: const TextStyle(fontFamily: 'Estedad', fontSize: 15, color: Colors.black54),
+                                children: [
+                                  TextSpan(
+                                    text: controller.resendText,
+                                    style: const TextStyle(color: Color(0xFF2F6E4F)),
+                                  ),
+                                  //  const TextSpan(text: 'تا دریافت مجدد کد'),
+                                ],
+                              ),
+                            )
+                          else
+                            GestureDetector(
+                              onTap: controller.isLoading ? null : notifier.resendOtp,
+                              child: const Text(
+                                'ارسال مجدد کد',
+                                style: TextStyle(fontFamily: 'Estedad', fontSize: 16, color: Color(0xFF2F6E4F), fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                        ],
+                      ),
+                      const Spacer(),
                       TextButton(
                         onPressed: controller.isLoading
                             ? null
@@ -69,38 +97,6 @@ class VerifyPage extends ConsumerWidget {
                                 context.go('/login');
                               },
                         child: Text('ویرایش شماره', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.blue)),
-                      ),
-                      const Spacer(),
-                      Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.watch_later_outlined, color: Color(0xFF2F6E4F), size: 22),
-                            const SizedBox(width: 6),
-                            if (!controller.canResend)
-                              RichText(
-                                text: TextSpan(
-                                  style: const TextStyle(fontFamily: 'Estedad', fontSize: 15, color: Colors.black54),
-                                  children: [
-                                    TextSpan(
-                                      text: '$minutes:$seconds ',
-                                      style: const TextStyle(color: Color(0xFF2F6E4F)),
-                                    ),
-                                    const TextSpan(text: 'تا دریافت مجدد کد'),
-                                  ],
-                                ),
-                              )
-                            else
-                              GestureDetector(
-                                onTap: controller.isLoading ? null : notifier.resendOtp,
-                                child: const Text(
-                                  'ارسال مجدد کد',
-                                  style: TextStyle(fontFamily: 'Estedad', fontSize: 16, color: Color(0xFF2F6E4F), fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                          ],
-                        ),
                       ),
                     ],
                   ),

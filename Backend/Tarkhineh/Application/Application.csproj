@@ -21,6 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Auth\Commands\RefreshToken\" />
+    <Folder Include="Common\Responses\" />
+    <Folder Include="Features\Categories\Dtos\" />
+    <Folder Include="Features\Categories\Profiles\" />
+    <Folder Include="Features\Foods\Commands\" />
     <Folder Include="Features\FoodTypes\Commands\" />
     <Folder Include="Features\FoodTypes\Dtos\" />
   </ItemGroup>

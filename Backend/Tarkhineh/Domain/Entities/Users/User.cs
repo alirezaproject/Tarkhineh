@@ -9,7 +9,10 @@ public sealed class User :IdentityUser<Guid>
     public string? Family { get; set; }
     public string? NickName { get; set; }
     public DateTime? BirthDate { get; set; }
-    
+
+    public string? RefreshToken { get; set; }
+    public DateTime? RefreshTokenExpiryTime { get; set; }
+
 
     #region Relations
 

@@ -1,9 +1,6 @@
-﻿using AutoMapper;
-using Domain.Entities.App;
+﻿using Domain.Entities.App;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 using Shared.Constants;
-using Shared.Wrapper;
 
 namespace Application.Features.Sliders.Commands;
 

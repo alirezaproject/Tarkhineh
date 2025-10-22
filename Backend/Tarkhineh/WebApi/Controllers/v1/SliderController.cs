@@ -1,6 +1,6 @@
 ﻿using Application.Features.Sliders.Commands;
 using Application.Features.Sliders.Queries;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers.v1
 {
@@ -13,9 +13,10 @@ namespace WebApi.Controllers.v1
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
-            => Ok(await mediator.Send(new GetSliderByIdQuery { Id = id }));
+            => Ok(await mediator.Send(new GetSliderByIdQuery(id)));
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateSliderCommand command)
             => Ok(await mediator.Send(command));
     }

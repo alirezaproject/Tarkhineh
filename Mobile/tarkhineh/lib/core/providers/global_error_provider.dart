@@ -1,32 +1,19 @@
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tarkhineh/core/extensions/custom_snack_bar.dart';
 
 final globalErrorProvider = StateProvider<String?>((ref) => null);
 
-class GlobalResultListener<T extends ChangeNotifier> extends ConsumerWidget {
+class GlobalResultListener<T extends ChangeNotifier> extends ConsumerStatefulWidget {
   final ChangeNotifierProvider<T> provider;
-
-  /// شرط موفقیت
   final bool Function(T) successCondition;
-
-  /// پیام موفقیت
   final String? Function(T)? successMessage;
-
-  /// پیام خطا
   final String? Function(T) errorMessage;
-
   final void Function(T)? onSuccessHandled;
-
-  /// مسیر صفحه بعد
   final String? successRoute;
-
-  /// حالت ناوبری
   final bool replace;
-
-  /// UI اصلی
   final Widget child;
 
   const GlobalResultListener({
@@ -42,36 +29,38 @@ class GlobalResultListener<T extends ChangeNotifier> extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final ctrl = ref.watch(provider);
+  ConsumerState<GlobalResultListener<T>> createState() => _GlobalResultListenerState<T>();
+}
 
-    // موفقیت
-    // داخل GlobalResultListener:
-    if (successRoute != null && successCondition(ctrl)) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final msg = successMessage?.call(ctrl);
-        if (msg != null && msg.trim().isNotEmpty) {
-          onSuccessHandled?.call(ctrl);
-          context.showSnackBar(msg, type: SnackBarType.success);
+class _GlobalResultListenerState<T extends ChangeNotifier> extends ConsumerState<GlobalResultListener<T>> {
+  String? _lastErrorMessage;
+  String? _lastSuccessMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    final ctrl = ref.watch(widget.provider);
+    final isSuccess = widget.successCondition(ctrl);
+    final successMsg = widget.successMessage?.call(ctrl);
+    final errorMsg = widget.errorMessage.call(ctrl);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isSuccess && successMsg != null && successMsg.trim().isNotEmpty && _lastSuccessMessage != successMsg) {
+        context.showSnackBar(successMsg, type: SnackBarType.success);
+        _lastSuccessMessage = successMsg;
+        widget.onSuccessHandled?.call(ctrl);
+
+        if (widget.successRoute != null) {
+          widget.replace ? context.go(widget.successRoute!) : context.push(widget.successRoute!);
         }
+      }
 
-        if (replace) {
-          context.go(successRoute!);
-        } else {
-          context.push(successRoute!);
-        }
-      });
-    }
+      if (!isSuccess && errorMsg != null && errorMsg.trim().isNotEmpty && _lastErrorMessage != errorMsg) {
+        context.showSnackBar(errorMsg, type: SnackBarType.error);
+        _lastErrorMessage = errorMsg;
+        ref.read(globalErrorProvider.notifier).state = errorMsg;
+      }
+    });
 
-    final errMsg = errorMessage.call(ctrl);
-    if (!successCondition(ctrl) && errMsg != null && errMsg.trim().isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        onSuccessHandled?.call(ctrl);
-        context.showSnackBar(errMsg, type: SnackBarType.error);
-        ref.read(globalErrorProvider.notifier).state = errMsg;
-      });
-    }
-
-    return child;
+    return widget.child;
   }
 }

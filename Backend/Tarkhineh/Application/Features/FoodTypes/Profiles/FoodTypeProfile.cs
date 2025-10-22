@@ -1,5 +1,4 @@
 ﻿using Application.Features.FoodTypes.Dtos;
-using AutoMapper;
 using Domain.Entities.Foods;
 
 namespace Application.Features.FoodTypes.Profiles;

@@ -1,7 +1,7 @@
 ﻿using Application.Features.FoodTypes.Commands;
 using Application.Features.FoodTypes.Dtos;
 using Application.Features.FoodTypes.Queries;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Shared.Wrapper;
 
 namespace WebApi.Controllers.v1
@@ -20,6 +20,7 @@ namespace WebApi.Controllers.v1
             => await mediator.Send(new GetFoodTypeListQuery());
 
         [HttpPost]
+        [Authorize]
         public async Task<ApiResult<Guid>> Create(CreateFoodTypeCommand command)
             => await mediator.Send(command);
 

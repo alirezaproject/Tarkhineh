@@ -9,7 +9,7 @@ class CustomApiInterceptor extends Interceptor {
         DioException(
           requestOptions: err.requestOptions,
           type: err.type,
-          error: NetworkException('اتصال به سرور برقرار نشد، لطفاً اینترنت خود را بررسی کنید.'),
+          error: NetworkException('مشکلی در ارتباط با سرور پیش آمده. کمی بعد دوباره امتحان کنید.'),
         ),
       );
     } else {

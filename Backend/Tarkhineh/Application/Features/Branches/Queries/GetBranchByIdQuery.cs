@@ -1,9 +1,6 @@
 ﻿using Application.Features.Branches.Dtos;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.Extensions.Logging;
 using Shared.Constants;
-using Shared.Wrapper;
 
 namespace Application.Features.Branches.Queries;
 

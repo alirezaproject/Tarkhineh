@@ -1,9 +1,5 @@
 ﻿using Application.Features.Sliders.Dtos;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
-using Shared.Wrapper;
 
 namespace Application.Features.Sliders.Queries;
 

@@ -1,8 +1,4 @@
 ﻿using Application.Features.Branches.Dtos;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Serilog;
-using Shared.Wrapper;
 
 namespace Application.Features.Branches.Queries;
 

@@ -48,6 +48,8 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    app.UseHealthChecks("/health");
     app.UseCors("AllowSpecificOrigin");
     app.UseHttpsRedirection();
     app.UseAuthentication();

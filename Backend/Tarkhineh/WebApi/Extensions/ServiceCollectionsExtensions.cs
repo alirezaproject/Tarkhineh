@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Text;
@@ -14,6 +13,7 @@ internal static class ServiceCollectionsExtensions
 {
     internal static IServiceCollection RegisterWebApi(this IServiceCollection service, WebApplicationBuilder builder)
     {
+        service.AddHealthChecks();
         service.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

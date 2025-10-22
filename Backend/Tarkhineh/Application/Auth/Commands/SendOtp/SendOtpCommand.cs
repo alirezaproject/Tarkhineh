@@ -1,7 +1,6 @@
 ﻿using Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Shared.Constants;
-using Shared.Wrapper;
 
 namespace Application.Auth.Commands.SendOtp;
 
@@ -27,10 +26,13 @@ public class SendOtpCommandHandler(UserManager<User> userManager, ISmsService sm
         var user = await userManager.FindByNameAsync(request.Phone);
         if (user == null)
         {
+            
             user = new User
             {
                 UserName = request.Phone,
-                PhoneNumber = request.Phone
+                PhoneNumber = request.Phone,
+                
+
             };
           var res =  await userManager.CreateAsync(user);
         }

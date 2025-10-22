@@ -1,6 +1,6 @@
 ﻿using Application.Features.Branches.Commands;
 using Application.Features.Branches.Queries;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers.v1
 {
@@ -24,6 +24,7 @@ namespace WebApi.Controllers.v1
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateBranch([FromBody] CreateBranchCommand command)
         {
             return Ok(await mediator.Send(command));

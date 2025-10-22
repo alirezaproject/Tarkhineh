@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Domain.Entities.Foods;
+﻿using Domain.Entities.Foods;
 using Shared.Constants;
-using Shared.Wrapper;
 
 namespace Application.Features.FoodTypes.Commands;
 

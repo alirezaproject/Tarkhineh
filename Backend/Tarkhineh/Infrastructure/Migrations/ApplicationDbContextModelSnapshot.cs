@@ -331,9 +331,6 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("FoodTypeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -343,8 +340,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FoodTypeId");
 
                     b.ToTable("FoodTypes");
                 });
@@ -581,6 +576,12 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -770,20 +771,12 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Foods.Food", b =>
                 {
                     b.HasOne("Domain.Entities.Foods.FoodType", "FoodType")
-                        .WithMany()
+                        .WithMany("Foods")
                         .HasForeignKey("FoodTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("FoodType");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Foods.FoodType", b =>
-                {
-                    b.HasOne("Domain.Entities.Foods.FoodType", null)
-                        .WithMany("FoodTypes")
-                        .HasForeignKey("FoodTypeId")
-                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("Domain.Entities.Orders.Order", b =>
@@ -909,7 +902,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Foods.FoodType", b =>
                 {
-                    b.Navigation("FoodTypes");
+                    b.Navigation("Foods");
                 });
 
             modelBuilder.Entity("Domain.Entities.Orders.Order", b =>

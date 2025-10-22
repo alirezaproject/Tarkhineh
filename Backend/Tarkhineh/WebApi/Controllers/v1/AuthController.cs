@@ -1,10 +1,7 @@
-﻿using Application.Auth.Commands.SendOtp;
+﻿using Application.Auth.Commands.RefreshToken;
+using Application.Auth.Commands.SendOtp;
 using Application.Auth.Commands.VerifyOtp;
-using Microsoft.AspNetCore.Mvc;
-using System.Numerics;
-using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Authorization;
-using Shared.Wrapper;
+using WebApi.Models;
 
 namespace WebApi.Controllers.v1
 {
@@ -27,13 +24,11 @@ namespace WebApi.Controllers.v1
         }
 
 
-        [Authorize]
-        [HttpGet("test")]
-        public async Task<IActionResult> Test()
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
         {
-            var api = ApiResult.Ok("test");
-            
-            return Ok(api);
+            var result = await mediator.Send(new RefreshTokenCommand(request.RefreshToken));
+            return Ok(result);
         }
     }
 }

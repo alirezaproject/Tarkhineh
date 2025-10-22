@@ -1,33 +1,37 @@
-﻿using Domain.Entities.Users;
+﻿using Application.Common.Responses;
+using Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Shared.Constants;
-using Shared.Wrapper;
 
 namespace Application.Auth.Commands.VerifyOtp;
 
-public record VerifyOtpCommand(string Mobile,string Code) :IRequest<ApiResult>;
+public record VerifyOtpCommand(string Mobile,string Code) :IRequest<ApiResult<JwtResponse>>;
 
 
 public class VerifyOtpCommandHandler(UserManager<User> userManager, IJwtService jwtService)
-    : IRequestHandler<VerifyOtpCommand, ApiResult>
+    : IRequestHandler<VerifyOtpCommand, ApiResult<JwtResponse>>
 {
-    public async Task<ApiResult> Handle(VerifyOtpCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResult<JwtResponse>> Handle(VerifyOtpCommand request, CancellationToken cancellationToken)
     {
         var user = await userManager.FindByNameAsync(request.Mobile);
         if (user is null)
-            return ApiResult.Fail(ErrorMessages.UserNotFound);
+            return ApiResult<JwtResponse>.Fail(ErrorMessages.UserNotFound);
 
         var isValid = await userManager.VerifyChangePhoneNumberTokenAsync(user, request.Code, request.Mobile);
         if (!isValid)
-            return ApiResult.Fail(ErrorMessages.InvalidOtp);
+            return ApiResult<JwtResponse>.Fail(ErrorMessages.InvalidOtp);
 
         user.PhoneNumberConfirmed = true;
         user.PhoneNumber = request.Mobile;
+
+        user.RefreshToken = jwtService.GenerateRefreshToken();
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+        
         await userManager.UpdateAsync(user);
 
-        var roles = await userManager.GetRolesAsync(user);
-        var token = jwtService.GenerateToken(user.Id, user.UserName!, roles.ToArray());
+      
+        var token = jwtService.GenerateToken(user);
 
-        return ApiResult.Ok(token);
+        return ApiResult<JwtResponse>.Ok(new JwtResponse(token,user.RefreshToken));
     }
 }

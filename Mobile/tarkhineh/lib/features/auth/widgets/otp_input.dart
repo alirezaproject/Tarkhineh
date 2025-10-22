@@ -20,29 +20,32 @@ class OtpInput extends StatelessWidget {
       ),
     );
 
-    return Pinput(
-      length: 6,
-      autofocus: true,
-      controller: textController,
-      defaultPinTheme: theme,
-      focusedPinTheme: theme.copyWith(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Theme.of(context).colorScheme.primary, width: 2),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Pinput(
+        length: 6,
+        autofocus: true,
+        controller: textController,
+        defaultPinTheme: theme,
+        focusedPinTheme: theme.copyWith(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Theme.of(context).colorScheme.primary, width: 2),
+          ),
         ),
-      ),
-      submittedPinTheme: theme.copyWith(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Theme.of(context).colorScheme.primary),
-          color: Colors.green.withValues(alpha: 0.1),
+        submittedPinTheme: theme.copyWith(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Theme.of(context).colorScheme.primary),
+            color: Colors.green.withValues(alpha: 0.1),
+          ),
         ),
+        onChanged: (value) => controller.updateOtp(value),
+        keyboardType: TextInputType.number,
+        onCompleted: (pin) {
+          controller.verifyOtp();
+        },
       ),
-      onChanged: (value) => controller.updateOtp(value),
-      keyboardType: TextInputType.number,
-      onCompleted: (pin) {
-        controller.verifyOtp();
-      },
     );
   }
 }

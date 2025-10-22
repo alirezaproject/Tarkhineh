@@ -1,6 +1,5 @@
 ﻿using Application.Features.Sliders.Commands;
 using Application.Features.Sliders.Dtos;
-using AutoMapper;
 using Domain.Entities.App;
 
 namespace Application.Features.Sliders.Profiles;

@@ -7,9 +7,9 @@ class AppInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    final token = await _storage.getJwt();
-    if (token != null) {
-      options.headers['Authorization'] = 'Bearer $token';
+    final accessToken = await _storage.getAccessToken();
+    if (accessToken != null) {
+      options.headers['Authorization'] = 'Bearer $accessToken';
     }
     return handler.next(options);
   }

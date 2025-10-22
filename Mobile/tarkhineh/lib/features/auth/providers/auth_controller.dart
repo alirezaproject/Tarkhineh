@@ -25,11 +25,11 @@ class AuthController extends ChangeNotifier {
   String message = "";
 
   // otp
-  int secondsRemaining = 60;
+  int secondsRemaining = 3;
   bool canResend = false;
   Timer? _timer;
   String otpCode = "";
-  String resendText = "دریافت مجدد کد";
+  String resendText = "دریافت مجدد کد در 3 ثانیه";
   TextEditingController otpController = TextEditingController();
 
   void clearResult() {
@@ -44,12 +44,8 @@ class AuthController extends ChangeNotifier {
       _timer?.cancel();
     }
 
-    secondsRemaining = 60;
-    canResend = false;
-    resendText = "دریافت مجدد کد";
-    _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (secondsRemaining > 0) {
+      if (secondsRemaining > 1) {
         secondsRemaining--;
         resendText = "دریافت مجدد کد در $secondsRemaining ثانیه";
         notifyListeners();
@@ -65,6 +61,9 @@ class AuthController extends ChangeNotifier {
   void resendOtp() {
     if (!canResend) return;
     sendOtp();
+    secondsRemaining = 3;
+    canResend = false;
+    resendText = "دریافت مجدد کد";
 
     startTimer();
   }
@@ -132,8 +131,10 @@ class AuthController extends ChangeNotifier {
     final res = await authService.verifyOtp(phoneNumber, otpCode);
     if (res.success) {
       isOtpSuccess = true;
-      final token = res.message!;
-      await secureStorage.saveJwt(token);
+
+      final accessToken = res.data!.accessToken;
+      final refreshToken = res.data!.refreshToken;
+      await secureStorage.saveJwt(accessToken, refreshToken);
     } else {
       isOtpSuccess = false;
       message = res.message ?? "";

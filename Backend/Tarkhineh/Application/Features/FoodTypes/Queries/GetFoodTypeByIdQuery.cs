@@ -1,7 +1,4 @@
 ﻿using Application.Features.FoodTypes.Dtos;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Shared.Wrapper;
 
 namespace Application.Features.FoodTypes.Queries;
 

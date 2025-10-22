@@ -1,20 +1,25 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:tarkhineh/core/extensions/custom_snack_bar.dart';
+import 'package:tarkhineh/core/wrapper/global_result_provider.dart';
 import 'package:tarkhineh/features/home/models/slider_model.dart';
 import 'package:tarkhineh/features/home/services/slider_service.dart';
 import 'package:tarkhineh/service_locator.dart';
 
 final sliderProvider = ChangeNotifierProvider<SliderController>((ref) {
-  final controller = SliderController();
-
+  final controller = SliderController(ref);
   ref.onDispose(controller.dispose);
-
   controller.fetchSliders();
   return controller;
 });
 
 class SliderController extends ChangeNotifier {
+  SliderController(this.ref);
+
+  final Ref ref;
+
   final ISliderService sliderService = sl<ISliderService>();
 
   List<SliderModel> _sliders = [];
@@ -54,10 +59,10 @@ class SliderController extends ChangeNotifier {
         }
         _errorMessage = null;
       } else {
-        _errorMessage = res.message ?? 'خطای نامشخص در دریافت اسلایدرها';
+        ref.read(globalResultProvider.notifier).showMessage('خطا در ارتباط با سرور', SnackBarType.error);
       }
     } catch (e) {
-      _errorMessage = e.toString();
+      ref.read(globalResultProvider.notifier).showMessage('خطا در ارتباط با سرور:', SnackBarType.error);
     } finally {
       _isLoading = false;
       notifyListeners();
