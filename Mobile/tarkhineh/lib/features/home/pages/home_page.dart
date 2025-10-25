@@ -14,7 +14,12 @@ class HomePage extends ConsumerWidget {
       body: SafeArea(
         child: Directionality(
           textDirection: TextDirection.rtl,
-          child: Column(children: [HomeHeader(), AppSlider(),AppFoodType(),SpecialFoods(), ]),
+          child: Column(
+            children: [
+              HomeHeader(), AppSlider(), AppFoodType(),
+              //SpecialFoods(),
+            ],
+          ),
         ),
       ),
     );

@@ -8,6 +8,7 @@ class ApiEndpoints {
   static const verifyOtp = '$baseUrl/Auth/verify-otp';
   static const refreshToken = '$baseUrl/Auth/refresh';
 
+
   // slider
   static const getSliders = '$baseUrl/Slider';
 

@@ -135,6 +135,7 @@ class AuthController extends ChangeNotifier {
       final accessToken = res.data!.accessToken;
       final refreshToken = res.data!.refreshToken;
       await secureStorage.saveJwt(accessToken, refreshToken);
+      message = "ورود با موفقیت انجام شد . خوش آمدید!";
     } else {
       isOtpSuccess = false;
       message = res.message ?? "";

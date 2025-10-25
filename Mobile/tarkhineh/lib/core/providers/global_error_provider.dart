@@ -9,7 +9,7 @@ final globalErrorProvider = StateProvider<String?>((ref) => null);
 class GlobalResultListener<T extends ChangeNotifier> extends ConsumerStatefulWidget {
   final ChangeNotifierProvider<T> provider;
   final bool Function(T) successCondition;
-  final String? Function(T)? successMessage;
+  final String Function(T) successMessage;
   final String? Function(T) errorMessage;
   final void Function(T)? onSuccessHandled;
   final String? successRoute;
@@ -20,7 +20,7 @@ class GlobalResultListener<T extends ChangeNotifier> extends ConsumerStatefulWid
     super.key,
     required this.provider,
     required this.successCondition,
-    this.successMessage,
+    required this.successMessage,
     required this.errorMessage,
     this.successRoute,
     this.replace = true,
@@ -40,12 +40,14 @@ class _GlobalResultListenerState<T extends ChangeNotifier> extends ConsumerState
   Widget build(BuildContext context) {
     final ctrl = ref.watch(widget.provider);
     final isSuccess = widget.successCondition(ctrl);
-    final successMsg = widget.successMessage?.call(ctrl);
+    final successMsg = widget.successMessage.call(ctrl);
     final errorMsg = widget.errorMessage.call(ctrl);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (isSuccess && successMsg != null && successMsg.trim().isNotEmpty && _lastSuccessMessage != successMsg) {
-        context.showSnackBar(successMsg, type: SnackBarType.success);
+      if (isSuccess && _lastSuccessMessage != successMsg) {
+        if (successMsg.trim().isNotEmpty) {
+          context.showSnackBar(successMsg, type: SnackBarType.success);
+        }
         _lastSuccessMessage = successMsg;
         widget.onSuccessHandled?.call(ctrl);
 

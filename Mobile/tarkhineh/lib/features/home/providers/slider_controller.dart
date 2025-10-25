@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:tarkhineh/core/extensions/custom_snack_bar.dart';
+import 'package:tarkhineh/core/storage/secure_storage_service.dart';
 import 'package:tarkhineh/core/wrapper/global_result_provider.dart';
 import 'package:tarkhineh/features/home/models/slider_model.dart';
 import 'package:tarkhineh/features/home/services/slider_service.dart';
@@ -39,6 +40,10 @@ class SliderController extends ChangeNotifier {
   void setCurrentIndex(int index) {
     currentIndex = index;
     notifyListeners();
+  }
+
+  Future<void> clearToken() async{
+    await sl<SecureStorageService>().clearTokens();
   }
 
   Future<void> fetchSliders({bool forceRefresh = false}) async {

@@ -30,5 +30,7 @@ namespace WebApi.Controllers.v1
             var result = await mediator.Send(new RefreshTokenCommand(request.RefreshToken));
             return Ok(result);
         }
+
+
     }
 }

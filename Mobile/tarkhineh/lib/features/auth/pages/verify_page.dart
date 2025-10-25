@@ -30,6 +30,7 @@ class VerifyPage extends ConsumerWidget {
       body: SingleChildScrollView(
         padding: EdgeInsets.only(bottom: 75),
         child: GlobalResultListener(
+          successMessage: (ctrl) => ctrl.message,
           onSuccessHandled: (_) {
             controller.clearResult();
           },
@@ -87,17 +88,17 @@ class VerifyPage extends ConsumerWidget {
                         ],
                       ),
                       const Spacer(),
-                      TextButton(
-                        onPressed: controller.isLoading
-                            ? null
-                            : () {
+                      controller.isLoading
+                          ? const AppLoading()
+                          : TextButton(
+                              onPressed: () {
                                 controller.isSuccess = false;
                                 controller.message = "";
                                 controller.otpController.clear();
                                 context.go('/login');
                               },
-                        child: Text('ویرایش شماره', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.blue)),
-                      ),
+                              child: Text('ویرایش شماره', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.blue)),
+                            ),
                     ],
                   ),
                   const SizedBox(height: 24),

@@ -6,6 +6,7 @@ namespace WebApi.Controllers.v1
 {
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1")]
+
     public class FoodController(IMediator mediator) : BaseController(mediator)
     {
         [HttpGet]

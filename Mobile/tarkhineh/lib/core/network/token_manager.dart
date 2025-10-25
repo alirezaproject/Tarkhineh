@@ -25,7 +25,7 @@ class TokenManager {
       return newAccess;
     } on DioException catch (e) {
       // اگر refresh fail شد، پاک و logout کن
-      log(e.message!);
+      log('Failed to refresh token: ${e.message}');
       await storage.clearTokens();
       return null;
     }

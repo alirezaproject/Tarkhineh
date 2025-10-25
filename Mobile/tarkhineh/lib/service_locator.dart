@@ -25,7 +25,7 @@ Future<void> setupLocator() async {
     );
 
     dio.interceptors.add(AuthInterceptor(dio: dio, storage: sl<SecureStorageService>(), tokenManager: sl<TokenManager>()));
-    dio.interceptors.add(CustomApiInterceptor());
+    dio.interceptors.add(CustomApiInterceptor(dio: dio, retries: 1, retryDelay: const Duration(seconds: 2)));
     dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
     return dio;
   });

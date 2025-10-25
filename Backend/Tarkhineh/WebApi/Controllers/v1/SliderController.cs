@@ -6,6 +6,7 @@ namespace WebApi.Controllers.v1
 {
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1")]
+    
     public class SliderController(IMediator mediator) : BaseController(mediator)
     {
         [HttpGet]
@@ -16,7 +17,7 @@ namespace WebApi.Controllers.v1
             => Ok(await mediator.Send(new GetSliderByIdQuery(id)));
 
         [HttpPost]
-        [Authorize]
+        
         public async Task<IActionResult> Create([FromBody] CreateSliderCommand command)
             => Ok(await mediator.Send(command));
     }
