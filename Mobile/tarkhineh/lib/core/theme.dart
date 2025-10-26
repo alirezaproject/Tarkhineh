@@ -1,13 +1,15 @@
 // lib/core/theme.dart
 import 'package:flutter/material.dart';
 import 'package:tarkhineh/core/constants/assets.dart';
+import 'package:tarkhineh/core/constants/color.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
       fontFamily: AppAssets.fontEstedad,
-      primaryColor: const Color(0xFF417F56),
+      primaryColor: AppColor.primaryColor,
+      
       scaffoldBackgroundColor: const Color(0xFFF9F9F9),
 
       colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2F6E4F), brightness: Brightness.light),

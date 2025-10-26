@@ -2,7 +2,7 @@
 
 namespace Application.Features.Foods.Queries;
 
-public class GetFoodListQuery : IRequest<ApiResult<List<FoodDto>>>
+public class GetFoodListQuery() : IRequest<ApiResult<List<FoodDto>>>
 {
 
 }

@@ -27,7 +27,13 @@ class MainLayout extends StatelessWidget {
         padding: const EdgeInsets.only(top: 8),
         decoration: const BoxDecoration(
           color: Colors.white,
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, -2))],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 8,
+              offset: Offset(0, -2),
+            ),
+          ],
         ),
         child: Directionality(
           textDirection: TextDirection.rtl,
@@ -37,8 +43,15 @@ class MainLayout extends StatelessWidget {
             backgroundColor: Colors.white,
             selectedItemColor: primaryColor,
             unselectedItemColor: const Color(0xFF9E9E9E),
-            selectedLabelStyle: const TextStyle(fontFamily: 'Estedad', fontSize: 13, fontWeight: FontWeight.w500),
-            unselectedLabelStyle: const TextStyle(fontFamily: 'Estedad', fontSize: 13),
+            selectedLabelStyle: const TextStyle(
+              fontFamily: 'Estedad',
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
+            unselectedLabelStyle: const TextStyle(
+              fontFamily: 'Estedad',
+              fontSize: 13,
+            ),
             onTap: (index) {
               switch (index) {
                 case 0:
@@ -59,11 +72,27 @@ class MainLayout extends StatelessWidget {
               }
             },
             items: [
-              const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: _HomeActiveIcon(), label: 'خانه'),
-              const BottomNavigationBarItem(icon: Icon(Icons.search), label: 'جستجو'),
-              const BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'سبد خرید'),
-              const BottomNavigationBarItem(icon: Icon(Icons.receipt_long_outlined), label: 'سفارشات'),
-              const BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'پروفایل'),
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined),
+                activeIcon: _HomeActiveIcon(),
+                label: 'خانه',
+              ),
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'جستجو',
+              ),
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart_outlined),
+                label: 'سبد خرید',
+              ),
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.receipt_long_outlined),
+                label: 'سفارشات',
+              ),
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.person_outline),
+                label: 'پروفایل',
+              ),
             ],
           ),
         ),
@@ -83,7 +112,11 @@ class _HomeActiveIcon extends StatelessWidget {
       height: 25,
       //  decoration: const BoxDecoration(color: tarkhinehGreen, borderRadius: BorderRadius.all(Radius.circular(8))),
       alignment: Alignment.center,
-      child: Icon(Icons.home, color: AppTheme.lightTheme.primaryColor, size: 22),
+      child: Icon(
+        Icons.home,
+        color: AppTheme.lightTheme.primaryColor,
+        size: 22,
+      ),
     );
   }
 }

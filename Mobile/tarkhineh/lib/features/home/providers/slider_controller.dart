@@ -9,7 +9,7 @@ import 'package:tarkhineh/features/home/models/slider_model.dart';
 import 'package:tarkhineh/features/home/services/slider_service.dart';
 import 'package:tarkhineh/service_locator.dart';
 
-final sliderProvider = ChangeNotifierProvider<SliderController>((ref) {
+final sliderController = ChangeNotifierProvider<SliderController>((ref) {
   final controller = SliderController(ref);
   ref.onDispose(controller.dispose);
   controller.fetchSliders();
@@ -35,14 +35,15 @@ class SliderController extends ChangeNotifier {
   int currentIndex = 0;
 
   final PageController pageController = PageController();
-  final CarouselSliderController carouselController = CarouselSliderController();
+  final CarouselSliderController carouselController =
+      CarouselSliderController();
 
   void setCurrentIndex(int index) {
     currentIndex = index;
     notifyListeners();
   }
 
-  Future<void> clearToken() async{
+  Future<void> clearToken() async {
     await sl<SecureStorageService>().clearTokens();
   }
 
@@ -64,10 +65,14 @@ class SliderController extends ChangeNotifier {
         }
         _errorMessage = null;
       } else {
-        ref.read(globalResultProvider.notifier).showMessage('خطا در ارتباط با سرور', SnackBarType.error);
+        ref
+            .read(globalResultProvider.notifier)
+            .showMessage('خطا در ارتباط با سرور', SnackBarType.error);
       }
     } catch (e) {
-      ref.read(globalResultProvider.notifier).showMessage('خطا در ارتباط با سرور:', SnackBarType.error);
+      ref
+          .read(globalResultProvider.notifier)
+          .showMessage('خطا در ارتباط با سرور:', SnackBarType.error);
     } finally {
       _isLoading = false;
       notifyListeners();

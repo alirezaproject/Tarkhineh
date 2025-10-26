@@ -15,6 +15,18 @@ namespace WebApi.Controllers.v1
             return Ok(await mediator.Send(new GetFoodListQuery()));
         }
 
+        [HttpGet("specials")]
+        public async Task<IActionResult> GetSpecialFoodsList()
+        {
+            return Ok(await mediator.Send(new GetSpecialFoodListQuery()));
+        }
+
+        [HttpGet("popular")]
+        public async Task<IActionResult> GetPopularFoodsList()
+        {
+            return Ok(await mediator.Send(new GetPopularFoodListQuery()));
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> CreateFood(CreateFoodCommand command)

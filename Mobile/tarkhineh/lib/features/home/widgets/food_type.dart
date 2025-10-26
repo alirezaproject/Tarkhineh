@@ -31,10 +31,30 @@ class AppFoodType extends ConsumerWidget {
                       scrollDirection: Axis.horizontal,
 
                       children: [
-                        Container(width: 125, height: 125, color: Colors.grey, margin: const EdgeInsets.all(8)),
-                        Container(width: 125, height: 125, color: Colors.grey, margin: const EdgeInsets.all(8)),
-                        Container(width: 125, height: 125, color: Colors.grey, margin: const EdgeInsets.all(8)),
-                        Container(width: 125, height: 125, color: Colors.grey, margin: const EdgeInsets.all(8)),
+                        Container(
+                          width: 125,
+                          height: 125,
+                          color: Colors.grey,
+                          margin: const EdgeInsets.all(8),
+                        ),
+                        Container(
+                          width: 125,
+                          height: 125,
+                          color: Colors.grey,
+                          margin: const EdgeInsets.all(8),
+                        ),
+                        Container(
+                          width: 125,
+                          height: 125,
+                          color: Colors.grey,
+                          margin: const EdgeInsets.all(8),
+                        ),
+                        Container(
+                          width: 125,
+                          height: 125,
+                          color: Colors.grey,
+                          margin: const EdgeInsets.all(8),
+                        ),
                       ],
                     ),
                   ),
@@ -51,15 +71,18 @@ class AppFoodType extends ConsumerWidget {
               SizedBox(
                 height: 210,
 
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.only(right: 18),
-                  itemCount: controller.foodTypes.length,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.only(right: 18),
+                    itemCount: controller.foodTypes.length,
 
-                  itemBuilder: (context, index) {
-                    final item = controller.foodTypes[index];
-                    return _FoodTypeCard(item);
-                  },
+                    itemBuilder: (context, index) {
+                      final item = controller.foodTypes[index];
+                      return _FoodTypeCard(item);
+                    },
+                  ),
                 ),
               ),
             ],
@@ -117,13 +140,25 @@ class _FoodTypeCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: Colors.white,
-                    boxShadow: [BoxShadow(blurRadius: 10, spreadRadius: 0.5, color: Colors.grey, offset: Offset(0, 1))],
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        spreadRadius: 0.5,
+                        color: Colors.grey,
+                        offset: Offset(0, 1),
+                      ),
+                    ],
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 10,
+                  ),
                   child: Text(
                     item.name,
                     textAlign: TextAlign.center,
-                    style: AppTheme.lightTheme.textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
+                    style: AppTheme.lightTheme.textTheme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),

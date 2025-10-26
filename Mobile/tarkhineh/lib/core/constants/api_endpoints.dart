@@ -8,10 +8,13 @@ class ApiEndpoints {
   static const verifyOtp = '$baseUrl/Auth/verify-otp';
   static const refreshToken = '$baseUrl/Auth/refresh';
 
-
   // slider
   static const getSliders = '$baseUrl/Slider';
 
   // food type
   static const getFoodTypes = '$baseUrl/FoodType';
+
+  // Food
+  static const getSpecialFoods = '$baseUrl/Food/specials';
+  static const getPopularFoods = '$baseUrl/Food/popular';
 }

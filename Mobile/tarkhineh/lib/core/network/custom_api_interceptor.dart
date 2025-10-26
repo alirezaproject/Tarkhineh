@@ -6,10 +6,17 @@ class CustomApiInterceptor extends Interceptor {
   final int retries;
   final Duration retryDelay;
 
-  CustomApiInterceptor({required this.dio, this.retries = 1, this.retryDelay = const Duration(seconds: 10)});
+  CustomApiInterceptor({
+    required this.dio,
+    this.retries = 1,
+    this.retryDelay = const Duration(seconds: 10),
+  });
 
   @override
-  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     // فقط اگر retry مجاز باشه
     if (_shouldRetry(err)) {
       try {
@@ -21,7 +28,9 @@ class CustomApiInterceptor extends Interceptor {
         handler.reject(
           DioException(
             requestOptions: err.requestOptions,
-            error: NetworkException('خطا در ارتباط با سرور، لطفاً بعداً دوباره تلاش کنید.'),
+            error: NetworkException(
+              'خطا در ارتباط با سرور، لطفاً بعداً دوباره تلاش کنید.',
+            ),
             type: err.type,
           ),
         );
@@ -33,7 +42,9 @@ class CustomApiInterceptor extends Interceptor {
     handler.reject(
       DioException(
         requestOptions: err.requestOptions,
-        error: NetworkException('مشکلی در ارتباط با سرور پیش آمده. کمی بعد دوباره امتحان کنید.'),
+        error: NetworkException(
+          'مشکلی در ارتباط با سرور پیش آمده. کمی بعد دوباره امتحان کنید.',
+        ),
         type: err.type,
         message: err.message,
       ),
@@ -41,12 +52,14 @@ class CustomApiInterceptor extends Interceptor {
   }
 
   bool _shouldRetry(DioException err) {
-    return err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout || err.type == DioExceptionType.unknown;
+    return err.type == DioExceptionType.connectionError ||
+        err.type == DioExceptionType.connectionTimeout ||
+        err.type == DioExceptionType.unknown;
   }
 
   Future<Response> _retryRequest(RequestOptions requestOptions) async {
     for (var attempt = 0; attempt < retries; attempt++) {
-      await Future.delayed(Duration(seconds: 2 * (attempt + 1)));
+      await Future.delayed(Duration(seconds: 5 * (attempt + 1)));
       try {
         final options = Options(
           method: requestOptions.method,
@@ -57,7 +70,12 @@ class CustomApiInterceptor extends Interceptor {
           validateStatus: requestOptions.validateStatus,
         );
 
-        return await dio.request(requestOptions.path, data: requestOptions.data, queryParameters: requestOptions.queryParameters, options: options);
+        return await dio.request(
+          requestOptions.path,
+          data: requestOptions.data,
+          queryParameters: requestOptions.queryParameters,
+          options: options,
+        );
       } catch (e) {
         if (attempt == retries - 1) rethrow;
       }
