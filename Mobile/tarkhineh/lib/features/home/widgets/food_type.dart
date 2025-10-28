@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:tarkhineh/common_widgets/home_section_header.dart';
 import 'package:tarkhineh/core/theme.dart';
@@ -16,7 +17,6 @@ class AppFoodType extends ConsumerWidget {
 
     return Builder(
       builder: (context) {
-        // حالت در حال بارگذاری
         if (controller.isLoading || controller.foodTypes.isEmpty) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,71 +99,78 @@ class _FoodTypeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20),
-      child: SizedBox(
-        width: 160,
-
-        child: Stack(
-          children: [
-            Positioned(
-              bottom: 25,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Container(
-                  width: 150,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: AppTheme.lightTheme.primaryColor,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [BoxShadow(blurRadius: 4)],
-                  ),
-                ),
-              ),
-            ),
-            Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: CachedNetworkImage(imageUrl: item.imageUrl, scale: 0.85),
-              ),
-            ),
-
-            // زیر‌نویس با نام غذا
-            Positioned(
-              bottom: 10, // فاصله از لبه پایینی کارت
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Container(
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 10,
-                        spreadRadius: 0.5,
-                        color: Colors.grey,
-                        offset: Offset(0, 1),
-                      ),
-                    ],
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 10,
-                  ),
-                  child: Text(
-                    item.name,
-                    textAlign: TextAlign.center,
-                    style: AppTheme.lightTheme.textTheme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.w500,
+    return GestureDetector(
+      onTap: () {
+        // ناوبری به صفحه منو با فیلتر نوع غذا
+        context.push('/menu', extra: item);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20),
+        child: SizedBox(
+          width: 160,
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 25,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Container(
+                    width: 150,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: AppTheme.lightTheme.primaryColor,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [BoxShadow(blurRadius: 4)],
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+              Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: CachedNetworkImage(
+                    imageUrl: item.imageUrl,
+                    scale: 0.85,
+                  ),
+                ),
+              ),
+
+              Positioned(
+                bottom: 10,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Container(
+                    width: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 10,
+                          spreadRadius: 0.5,
+                          color: Colors.grey,
+                          offset: Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 10,
+                    ),
+                    child: Text(
+                      item.name,
+                      textAlign: TextAlign.center,
+                      style: AppTheme.lightTheme.textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

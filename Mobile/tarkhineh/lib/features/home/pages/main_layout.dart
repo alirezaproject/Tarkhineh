@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tarkhineh/core/theme.dart';
+import 'package:tarkhineh/core/constants/assets.dart';
+import 'package:tarkhineh/core/constants/color.dart';
 
 class MainLayout extends StatelessWidget {
   final Widget child;
   const MainLayout({super.key, required this.child});
 
-  static Color primaryColor = AppTheme.lightTheme.primaryColor;
+  static Color primaryColor = AppColor.primaryColor;
 
   @override
   Widget build(BuildContext context) {
@@ -72,50 +74,34 @@ class MainLayout extends StatelessWidget {
               }
             },
             items: [
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
-                activeIcon: _HomeActiveIcon(),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(AppIcons.home),
+                activeIcon: SvgPicture.asset(AppIcons.homeFilled),
                 label: 'خانه',
               ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.search),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(AppIcons.search),
+                activeIcon: SvgPicture.asset(AppIcons.search),
                 label: 'جستجو',
               ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart_outlined),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(AppIcons.cart),
+                activeIcon: SvgPicture.asset(AppIcons.cartFilled),
                 label: 'سبد خرید',
               ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.receipt_long_outlined),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(AppIcons.receipt),
+                activeIcon: SvgPicture.asset(AppIcons.receiptFilled),
                 label: 'سفارشات',
               ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(AppIcons.user),
+                activeIcon: SvgPicture.asset(AppIcons.userFilled),
                 label: 'پروفایل',
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-/// آیکن سفارشی خانه که پس‌زمینه سبز دارد مثل عکس
-class _HomeActiveIcon extends StatelessWidget {
-  const _HomeActiveIcon();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 25,
-      height: 25,
-      //  decoration: const BoxDecoration(color: tarkhinehGreen, borderRadius: BorderRadius.all(Radius.circular(8))),
-      alignment: Alignment.center,
-      child: Icon(
-        Icons.home,
-        color: AppTheme.lightTheme.primaryColor,
-        size: 22,
       ),
     );
   }

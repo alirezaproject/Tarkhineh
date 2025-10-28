@@ -82,6 +82,9 @@ class SliderController extends ChangeNotifier {
   @override
   void dispose() {
     _sliders.clear();
+    pageController.dispose();
+    carouselController.stopAutoPlay();
+
     super.dispose();
   }
 }

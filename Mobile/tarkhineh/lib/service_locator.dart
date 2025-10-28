@@ -5,6 +5,7 @@ import 'package:tarkhineh/core/network/auth_interceptor.dart';
 import 'package:tarkhineh/core/network/custom_api_interceptor.dart';
 import 'package:tarkhineh/core/network/token_manager.dart';
 import 'package:tarkhineh/core/storage/secure_storage_service.dart';
+import 'package:tarkhineh/features/home/services/branch_service.dart';
 import 'package:tarkhineh/features/home/services/food_service.dart';
 import 'package:tarkhineh/features/home/services/food_type_service.dart';
 import 'package:tarkhineh/features/home/services/slider_service.dart';
@@ -35,4 +36,5 @@ Future<void> setupLocator() async {
   sl.registerLazySingleton<ISliderService>(() => SliderService(sl<Dio>()));
   sl.registerLazySingleton<IFoodTypeService>(() => FoodTypeService(sl<Dio>()));
   sl.registerLazySingleton<IFoodService>(() => FoodService(sl<Dio>()));
+  sl.registerLazySingleton<IBranchService>(() => BranchService(sl<Dio>()));
 }

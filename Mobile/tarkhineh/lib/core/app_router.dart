@@ -2,8 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tarkhineh/features/auth/pages/login_page.dart';
 import 'package:tarkhineh/features/auth/pages/verify_page.dart';
+import 'package:tarkhineh/features/home/models/food_type_model.dart';
 import 'package:tarkhineh/features/home/pages/home_page.dart';
 import 'package:tarkhineh/features/home/pages/main_layout.dart';
+import 'package:tarkhineh/features/menu/pages/menu_page.dart';
 import 'package:tarkhineh/startup/splash_page.dart';
 
 import '../features/onboarding/pages/onboarding_page.dart';
@@ -13,10 +15,31 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
     routes: [
-      GoRoute(path: '/', name: 'splash', builder: (context, state) => const SplashPage()),
-      GoRoute(path: '/onboarding', name: 'onboarding', builder: (context, state) => const OnboardingPage()),
-      GoRoute(path: '/login', name: 'login', builder: (context, state) => const LoginPage()),
-      GoRoute(path: '/verify', name: 'verify', builder: (context, state) => const VerifyPage()),
+      GoRoute(
+        path: '/',
+        name: 'splash',
+        builder: (context, state) => const SplashPage(),
+      ),
+      GoRoute(
+        path: '/onboarding',
+        name: 'onboarding',
+        builder: (context, state) => const OnboardingPage(),
+      ),
+      GoRoute(
+        path: '/login',
+        name: 'login',
+        builder: (context, state) => const LoginPage(),
+      ),
+      GoRoute(
+        path: '/verify',
+        name: 'verify',
+        builder: (context, state) => const VerifyPage(),
+      ),
+      GoRoute(
+        path: '/menu',
+        name: 'menu',
+        builder: (context, state) => MenuPage(state.extra as FoodTypeModel),
+      ),
 
       ShellRoute(
         builder: (context, state, child) {

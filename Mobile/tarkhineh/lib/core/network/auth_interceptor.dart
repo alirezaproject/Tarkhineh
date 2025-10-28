@@ -9,10 +9,17 @@ class AuthInterceptor extends Interceptor {
   final Dio dio; // ← جدید، جدا از dio اصلی
   final SecureStorageService storage;
 
-  AuthInterceptor({required this.tokenManager, required this.dio, required this.storage});
+  AuthInterceptor({
+    required this.tokenManager,
+    required this.dio,
+    required this.storage,
+  });
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final accessToken = await storage.getAccessToken();
     if (accessToken != null) {
       options.headers['Authorization'] = 'Bearer $accessToken';
@@ -31,6 +38,14 @@ class AuthInterceptor extends Interceptor {
         final cloneResponse = await dio.fetch(retryReq);
         return handler.resolve(cloneResponse);
       }
+      // اگر نتونستیم توکن رو رفرش کنیم، ارور بده
+      return handler.reject(
+        DioException(
+          requestOptions: err.requestOptions,
+          error: 'توکن منقضی شده و رفرش نشد.',
+          type: err.type,
+        ),
+      );
     }
     return handler.next(err);
   }

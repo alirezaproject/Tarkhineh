@@ -4,6 +4,7 @@ import 'package:tarkhineh/common_widgets/no_connection_page.dart';
 import 'package:tarkhineh/core/extensions/custom_snack_bar.dart';
 import 'package:tarkhineh/core/network/connection_manager.dart';
 import 'package:tarkhineh/core/theme.dart';
+import 'package:tarkhineh/core/utils/shared_preferences.dart';
 import 'package:tarkhineh/core/wrapper/global_result_notifier.dart';
 import 'package:tarkhineh/core/wrapper/global_result_provider.dart';
 import 'package:tarkhineh/service_locator.dart';
@@ -12,6 +13,7 @@ import 'core/app_router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
+  await SharedPreferencesHelper.init();
   runApp(ProviderScope(child: MyApp()));
 }
 

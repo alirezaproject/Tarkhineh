@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tarkhineh/features/home/providers/branch_controller.dart';
 import 'package:tarkhineh/features/home/providers/food_controller.dart';
 import 'package:tarkhineh/features/home/providers/food_type_controller.dart';
 import 'package:tarkhineh/features/home/providers/slider_controller.dart';
@@ -24,6 +25,7 @@ class HomePage extends ConsumerWidget {
               ref.invalidate(foodTypeController);
               ref.invalidate(foodController);
               ref.invalidate(sliderController);
+              ref.invalidate(branchController);
             },
             child: SingleChildScrollView(
               child: Column(

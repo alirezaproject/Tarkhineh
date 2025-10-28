@@ -10,10 +10,10 @@ import 'package:tarkhineh/service_locator.dart';
 
 final foodController = ChangeNotifierProvider<FoodController>((ref) {
   final controller = FoodController(ref);
-  ref.onDispose(controller.dispose);
 
   controller.fetchSpecialFoods();
   controller.fetchPopularsFoods();
+  ref.onDispose(controller.dispose);
 
   return controller;
 });
