@@ -1,31 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tarkhineh/core/constants/color.dart';
+import 'package:tarkhineh/common_widgets/food_card.dart';
+import 'package:tarkhineh/common_widgets/shimmer_food_card.dart';
 import 'package:tarkhineh/core/theme.dart';
 import 'package:tarkhineh/features/home/models/food_type_model.dart';
 import 'package:tarkhineh/features/home/providers/food_type_controller.dart';
 import 'package:tarkhineh/features/menu/providers/menu_controller.dart';
+import 'package:tarkhineh/features/menu/widgets/food_type_bar.dart';
+import 'package:tarkhineh/features/menu/widgets/menu_category_bar.dart';
 
-class MenuPage extends ConsumerStatefulWidget {
+class MenuPage extends ConsumerWidget {
   final FoodTypeModel initialFoodType;
   const MenuPage(this.initialFoodType, {super.key});
 
   @override
-  ConsumerState<MenuPage> createState() => _MenuPageState();
-}
-
-class _MenuPageState extends ConsumerState<MenuPage> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(menuController.notifier).selectFoodType(widget.initialFoodType);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final selectedFoodType = ref.watch(menuController).selectedFoodType;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.watch(menuController(initialFoodType));
     final foodTypes = ref.watch(foodTypeController);
 
     return Scaffold(
@@ -47,84 +37,65 @@ class _MenuPageState extends ConsumerState<MenuPage> {
           textDirection: TextDirection.rtl,
           child: RefreshIndicator(
             onRefresh: () async {
-              //     await ref.refresh(foodTypeController.future);
+              ref.invalidate(menuController);
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _FoodTypeBar(
+                  FoodTypeBar(
                     foodTypes: foodTypes.foodTypes,
-                    selected: selectedFoodType ?? foodTypes.foodTypes.first,
-                    onSelect: (f) =>
-                        ref.read(menuController.notifier).selectFoodType(f),
+                    selected: controller.selectedFoodType ?? initialFoodType,
+                    onSelect: (f) => ref
+                        .read(menuController(initialFoodType))
+                        .selectFoodType(f),
                   ),
-                  // 🥘 اینجا بعداً لیست آیتم‌های منو رو اضافه کن
+                  const SizedBox(height: 16),
+                  MenuCategoryBar(
+                    categories: controller.categoryModel,
+                    onSelect: (value) => ref
+                        .read(menuController(initialFoodType))
+                        .selectCategory(value),
+                  ),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Text(
+                      controller.selectedCategory?.name ?? '',
+                      style: AppTheme.lightTheme.textTheme.headlineMedium!
+                          .copyWith(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Builder(
+                      builder: (context) {
+                        if (controller.isLoading) {
+                          return ShimmerFoodCard();
+                        } else {
+                          return ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: controller.foodModel.length,
+                            separatorBuilder: (_, __) =>
+                                const SizedBox(height: 10),
+                            itemBuilder: (context, index) {
+                      
+                              final food = controller.foodModel[index];
+                              return FoodCard(food: food);
+                            },
+                          );
+                        }
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _FoodTypeBar extends StatelessWidget {
-  final List<FoodTypeModel> foodTypes;
-  final FoodTypeModel selected;
-  final ValueChanged<FoodTypeModel> onSelect;
-
-  const _FoodTypeBar({
-    required this.foodTypes,
-    required this.selected,
-    required this.onSelect,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(color: Colors.grey[200]),
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: foodTypes.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        itemBuilder: (_, index) {
-          final foodType = foodTypes[index];
-          final isSelected = foodType.id == selected.id;
-
-          return GestureDetector(
-            onTap: () => onSelect(foodType),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              curve: Curves.easeOutCubic,
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: isSelected
-                        ? AppColor.primaryColor
-                        : Colors.transparent,
-                    width: 1,
-                  ),
-                ),
-              ),
-              child: Center(
-                child: Text(
-                  foodType.name,
-                  style: AppTheme.lightTheme.textTheme.bodyMedium!.copyWith(
-                    color: isSelected
-                        ? AppColor.primaryColor
-                        : Colors.grey[600],
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
       ),
     );
   }

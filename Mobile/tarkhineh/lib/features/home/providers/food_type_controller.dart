@@ -57,6 +57,14 @@ class FoodTypeController extends ChangeNotifier {
     }
   }
 
+  FoodTypeModel? getFoodTypeById(String id) {
+    try {
+      return _foodTypes.firstWhere((element) => element.id == id);
+    } catch (e) {
+      return null;
+    }
+  }
+
   @override
   void dispose() {
     _foodTypes.clear();

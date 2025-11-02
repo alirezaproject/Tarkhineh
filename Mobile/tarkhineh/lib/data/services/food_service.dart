@@ -8,6 +8,7 @@ import 'package:tarkhineh/core/models/food_model.dart';
 abstract class IFoodService {
   Future<ApiResult<List<FoodModel>>> getSpecialFoods();
   Future<ApiResult<List<FoodModel>>> getPopularFoods();
+  Future<ApiResult<List<FoodModel>>> getFoodsByCategoryId(String categoryId);
 }
 
 class FoodService implements IFoodService {
@@ -40,6 +41,32 @@ class FoodService implements IFoodService {
   Future<ApiResult<List<FoodModel>>> getPopularFoods() async {
     try {
       final response = await dio.get(ApiEndpoints.getPopularFoods);
+      return ApiResult.fromJson(
+        response.data,
+        (_) => (response.data['data'] as List)
+            .map((e) => FoodModel.fromJson(e))
+            .toList(),
+      );
+    } on DioException catch (e) {
+      if (e.error is NetworkException) {
+        return ApiResult(
+          success: false,
+          message: (e.error as NetworkException).message,
+        );
+      } else {
+        return ApiResult(success: false, message: ErrorMessage.unknownError);
+      }
+    }
+  }
+
+  @override
+  Future<ApiResult<List<FoodModel>>> getFoodsByCategoryId(
+    String categoryId,
+  ) async {
+    try {
+      final response = await dio.get(
+        "${ApiEndpoints.getFoodsByCategoryId}/$categoryId",
+      );
       return ApiResult.fromJson(
         response.data,
         (_) => (response.data['data'] as List)

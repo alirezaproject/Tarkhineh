@@ -15,7 +15,11 @@ class ApiEndpoints {
   // food type
   static const getFoodTypes = '$baseUrl/FoodType';
 
+  // Category
+  static const getCategoriesByFoodTypeId = '$baseUrl/Category/getByFoodTypeId';
+
   // Food
   static const getSpecialFoods = '$baseUrl/Food/specials';
   static const getPopularFoods = '$baseUrl/Food/popular';
+  static const getFoodsByCategoryId = '$baseUrl/Food/getByCategoryId';
 }

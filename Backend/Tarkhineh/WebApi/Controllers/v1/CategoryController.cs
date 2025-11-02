@@ -1,6 +1,5 @@
 ﻿using Application.Features.Categories.Commands;
 using Application.Features.Categories.Queries;
-using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers.v1
 {
@@ -11,12 +10,17 @@ namespace WebApi.Controllers.v1
         [HttpGet]
         public async Task<IActionResult> GetAll() => Ok(await mediator.Send(new GetCategoryListQuery()));
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
             => Ok(await mediator.Send(new GetCategoryByIdQuery(id)));
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCategoryCommand command)
             => Ok(await mediator.Send(command));
+
+
+        [HttpGet("getByFoodTypeId/{foodTypeId:guid}")]
+        public async Task<IActionResult> GetCategoriesByFoodTypeId(Guid foodTypeId)
+            => Ok(await mediator.Send(new GetCategoriesByFoodTypeIdQuery(foodTypeId)));
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Application.Features.Branches.Dtos;
-using Microsoft.Extensions.Logging;
 using Shared.Constants;
 
 namespace Application.Features.Branches.Queries;

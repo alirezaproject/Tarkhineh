@@ -8,6 +8,8 @@ using Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace Infrastructure.Persistence.Context;
 
@@ -83,7 +85,11 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : Identi
         {
             relationship.DeleteBehavior = DeleteBehavior.NoAction; // یا DeleteBehavior.NoAction
         }
+
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
     #endregion
+
+
 }

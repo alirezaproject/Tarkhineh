@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:tarkhineh/core/extensions/custom_snack_bar.dart';
 import 'package:tarkhineh/core/models/food_model.dart';
 import 'package:tarkhineh/core/wrapper/global_result_provider.dart';
-import 'package:tarkhineh/features/home/services/food_service.dart';
+import 'package:tarkhineh/data/services/food_service.dart';
 import 'package:tarkhineh/service_locator.dart';
 
 final foodController = ChangeNotifierProvider<FoodController>((ref) {

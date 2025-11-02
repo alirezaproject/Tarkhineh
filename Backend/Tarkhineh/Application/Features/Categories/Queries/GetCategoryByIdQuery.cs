@@ -1,5 +1,4 @@
 ﻿using Application.Features.Categories.Dtos;
-using Microsoft.Extensions.Logging;
 
 namespace Application.Features.Categories.Queries;
 

@@ -1,5 +1,4 @@
 ﻿using Domain.Entities.Categories;
-using Microsoft.Extensions.Logging;
 using Shared.Constants;
 
 namespace Application.Features.Categories.Commands;
@@ -7,6 +6,7 @@ namespace Application.Features.Categories.Commands;
 public class CreateCategoryCommand : IRequest<ApiResult<Guid>>
 {
     public string Name { get; set; }
+    public Guid FoodTypeId { get; set; }
 }
 
 public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
@@ -16,6 +16,10 @@ public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCo
         RuleFor(s => s.Name)
             .NotEmpty().WithMessage(ValidationMessages.Required)
             .WithName("نام دسته بندی");
+
+        RuleFor(s => s.FoodTypeId)
+            .NotEmpty().WithMessage(ValidationMessages.Required)
+            .WithName("نوع غذای دسته بندی");
     }
 }
 

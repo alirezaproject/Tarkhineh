@@ -25,6 +25,8 @@ class AppTheme {
         // متن اصلی
         bodyLarge: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
         bodyMedium: TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
+
+        
       ),
 
       elevatedButtonTheme: ElevatedButtonThemeData(

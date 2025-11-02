@@ -1,4 +1,5 @@
 ﻿using Application.Features.Sliders.Dtos;
+using ILogger = Serilog.ILogger;
 
 namespace Application.Features.Sliders.Queries;
 

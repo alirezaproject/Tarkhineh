@@ -5,6 +5,7 @@ import 'package:tarkhineh/features/auth/pages/verify_page.dart';
 import 'package:tarkhineh/features/home/models/food_type_model.dart';
 import 'package:tarkhineh/features/home/pages/home_page.dart';
 import 'package:tarkhineh/features/home/pages/main_layout.dart';
+import 'package:tarkhineh/features/home/providers/food_type_controller.dart';
 import 'package:tarkhineh/features/menu/pages/menu_page.dart';
 import 'package:tarkhineh/startup/splash_page.dart';
 
@@ -36,9 +37,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const VerifyPage(),
       ),
       GoRoute(
-        path: '/menu',
+        path: '/menu/:id',
         name: 'menu',
-        builder: (context, state) => MenuPage(state.extra as FoodTypeModel),
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          final foodType = ref.read(foodTypeController).getFoodTypeById(id);
+          return MenuPage(foodType as FoodTypeModel);
+        },
       ),
 
       ShellRoute(

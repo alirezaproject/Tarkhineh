@@ -1,4 +1,5 @@
 ﻿using Application.Features.Foods.Dtos;
+using ILogger = Serilog.ILogger;
 
 namespace Application.Features.Foods.Queries;
 

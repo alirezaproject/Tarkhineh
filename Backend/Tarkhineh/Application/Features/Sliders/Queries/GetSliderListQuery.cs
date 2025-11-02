@@ -1,5 +1,6 @@
 ﻿using Application.Features.Sliders.Dtos;
 using Microsoft.EntityFrameworkCore;
+using ILogger = Serilog.ILogger;
 
 namespace Application.Features.Sliders.Queries;
 

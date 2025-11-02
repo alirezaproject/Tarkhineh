@@ -1,6 +1,7 @@
 ﻿using Domain.Entities.App;
 using Microsoft.EntityFrameworkCore;
 using Shared.Constants;
+using ILogger = Serilog.ILogger;
 
 namespace Application.Features.Sliders.Commands;
 

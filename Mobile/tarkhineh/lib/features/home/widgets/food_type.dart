@@ -102,7 +102,7 @@ class _FoodTypeCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // ناوبری به صفحه منو با فیلتر نوع غذا
-        context.push('/menu', extra: item);
+        context.push('/menu/${item.id}',);
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 20),
